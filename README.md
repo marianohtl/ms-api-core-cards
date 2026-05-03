@@ -3,6 +3,7 @@
 Microservice core to flashcards.
 
 > **Note:** This repository focuses exclusively on the **Flashcard Service** component of the broader study platform.
+> **Database:** **H2 Database** will be used for local development and demonstrations.
 
 ## Project Overview
 ...
