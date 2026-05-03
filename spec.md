@@ -284,7 +284,7 @@ Standard format:
 - Java 21
 - Spring Boot 3.4.0
 - Maven
-- Relational Database
+- Relational Database (H2 Database will be used for local development and demonstrations)
 
 ---
 
