@@ -32,13 +32,13 @@ public class DeckService {
                 .collection(collection)
                 .build();
         Deck saved = deckRepository.save(deck);
-        return new DeckResponse(saved.getId(), saved.getCollection().getId(), saved.getName());
+        return new DeckResponse(saved.getId(), saved.getCollection().getId(), saved.getName(), List.of());
     }
 
     @Transactional(readOnly = true)
     public List<DeckResponse> getDecksByCollection(UUID collectionId) {
         return deckRepository.findByCollectionId(collectionId).stream()
-                .map(d -> new DeckResponse(d.getId(), d.getCollection().getId(), d.getName()))
+                .map(d -> new DeckResponse(d.getId(), d.getCollection().getId(), d.getName(), List.of()))
                 .collect(Collectors.toList());
     }
 
@@ -52,7 +52,7 @@ public class DeckService {
     public DeckResponse updateDeck(UUID id, String name) {
         Deck deck = getDeck(id);
         deck.setName(name);
-        return new DeckResponse(deck.getId(), deck.getCollection().getId(), deck.getName());
+        return new DeckResponse(deck.getId(), deck.getCollection().getId(), deck.getName(), List.of());
     }
 
     @Transactional

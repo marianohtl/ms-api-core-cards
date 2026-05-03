@@ -33,13 +33,13 @@ public class CardService {
                 .back(request.cardBack())
                 .build();
         Card saved = cardRepository.save(card);
-        return new CardResponse(saved.getId(), saved.getDeck().getId());
+        return new CardResponse(saved.getId(), saved.getDeck().getId(), saved.getFront(), saved.getBack());
     }
 
     @Transactional(readOnly = true)
     public List<CardResponse> getCardsByDeck(UUID deckId) {
         return cardRepository.findByDeckId(deckId).stream()
-                .map(c -> new CardResponse(c.getId(), c.getDeck().getId()))
+                .map(c -> new CardResponse(c.getId(), c.getDeck().getId(), c.getFront(), c.getBack()))
                 .collect(Collectors.toList());
     }
 
@@ -54,7 +54,7 @@ public class CardService {
         Card card = getCard(id);
         card.setFront(front);
         card.setBack(back);
-        return new CardResponse(card.getId(), card.getDeck().getId());
+        return new CardResponse(card.getId(), card.getDeck().getId(), card.getFront(), card.getBack());
     }
 
     @Transactional

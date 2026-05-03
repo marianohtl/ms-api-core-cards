@@ -1,6 +1,7 @@
 package com.mindlessducks.coreflashcard.services;
 
 import com.mindlessducks.coreflashcard.dto.CollectionDetailResponse;
+import com.mindlessducks.coreflashcard.dto.CardResponse;
 import com.mindlessducks.coreflashcard.dto.CollectionDetailResponse;
 import com.mindlessducks.coreflashcard.dto.CollectionResponse;
 import com.mindlessducks.coreflashcard.dto.CreateCollectionRequest;
@@ -44,7 +45,14 @@ public class CollectionService {
                 .orElseThrow(() -> new RuntimeException("Collection not found"));
         
         List<DeckResponse> deckResponses = collection.getDecks().stream()
-                .map(deck -> new DeckResponse(deck.getId(), deck.getCollection().getId(), deck.getName()))
+                .map(deck -> new DeckResponse(
+                        deck.getId(),
+                        deck.getCollection().getId(),
+                        deck.getName(),
+                        deck.getCards().stream()
+                                .map(card -> new CardResponse(card.getId(), deck.getId(), card.getFront(), card.getBack()))
+                                .toList()
+                ))
                 .toList();
 
         return new CollectionDetailResponse(
