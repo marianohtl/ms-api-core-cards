@@ -1,7 +1,10 @@
 package com.mindlessducks.coreflashcard.services;
 
+import com.mindlessducks.coreflashcard.dto.CollectionDetailResponse;
+import com.mindlessducks.coreflashcard.dto.CollectionDetailResponse;
 import com.mindlessducks.coreflashcard.dto.CollectionResponse;
 import com.mindlessducks.coreflashcard.dto.CreateCollectionRequest;
+import com.mindlessducks.coreflashcard.dto.DeckResponse;
 import com.mindlessducks.coreflashcard.entities.Collection;
 import com.mindlessducks.coreflashcard.repositories.CollectionRepository;
 import lombok.RequiredArgsConstructor;
@@ -36,14 +39,28 @@ public class CollectionService {
     }
 
     @Transactional(readOnly = true)
-    public Collection getCollection(UUID id) {
-        return collectionRepository.findById(id)
+    public CollectionDetailResponse getCollection(UUID id) {
+        Collection collection = collectionRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Collection not found"));
+        
+        List<DeckResponse> deckResponses = collection.getDecks().stream()
+                .map(deck -> new DeckResponse(deck.getId(), deck.getCollection().getId(), deck.getName()))
+                .toList();
+
+        return new CollectionDetailResponse(
+                collection.getId(),
+                collection.getName(),
+                collection.getUserId(),
+                collection.getCreatedAt(),
+                collection.getUpdatedAt(),
+                deckResponses
+        );
     }
 
     @Transactional
     public CollectionResponse updateCollection(UUID id, String name) {
-        Collection collection = getCollection(id);
+        Collection collection = collectionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Collection not found"));
         collection.setName(name);
         return new CollectionResponse(collection.getId(), collection.getName());
     }
