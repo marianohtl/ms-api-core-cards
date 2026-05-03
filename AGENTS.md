@@ -10,6 +10,13 @@
 - **Core Dependencies:** Spring Web.
 - **Base Package:** `com.mindlessducks.coreflashcard`.
 
-## Documentation
-- Architecture: `docs/general_project_architecture.md`
+## Documentation & Resources
+- **Architecture:** [General Project Architecture](docs/general_project_architecture.md)
+- **Data Model:** [Data Model](docs/data_model.md)
+- **Specification:** [Project Spec](spec.md)
+- **README:** [Project Overview](README.md)
+- **Database Scripts:**
+    - [DDL](sql/ddl.sql)
+    - [DML](sql/dml.sql)
+    - [DQL](sql/dql.sql)
 
