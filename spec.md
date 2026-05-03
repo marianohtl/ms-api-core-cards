@@ -141,7 +141,7 @@ Communication is synchronous via HTTP/JSON.
 
 ### 5.4 List all by collection id
 
-**GET** `/collections/{collectionID}`
+**GET** `/collections/{id}`
 
 #### Response
 
