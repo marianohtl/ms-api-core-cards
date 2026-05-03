@@ -14,23 +14,24 @@ This repository focuses exclusively on this service.
 
 ## 2. Responsibilities
 
-- Create, update, delete, and retrieve:
-    - Collections
-    - Decks
-    - Cards
-- Provide structured data for frontend consumption via BFFs
-- Maintain relational integrity between entities
-- Persist and retrieve data from the database
+* Create, update, delete, and retrieve:
+
+  * Collections
+  * Decks
+  * Cards
+* Provide structured data for frontend consumption via BFFs
+* Maintain relational integrity between entities
+* Persist and retrieve data from the database
 
 ---
 
 ## 3. Non-Responsibilities
 
-- Authentication and authorization (Auth Service)
-- User profile management (User Service)
-- Frontend orchestration (BFF layer)
-- Review logic (handled by Review MFE/BFF)
-- Notifications or analytics
+* Authentication and authorization (Auth Service)
+* User profile management (User Service)
+* Frontend orchestration (BFF layer)
+* Review logic (handled by Review MFE/BFF)
+* Notifications or analytics
 
 ---
 
@@ -38,8 +39,8 @@ This repository focuses exclusively on this service.
 
 The Flashcard Service is consumed by:
 
-- Deck BFF (management flows)
-- Review BFF (study flows)
+* Deck BFF (management flows)
+* Review BFF (study flows)
 
 Communication is synchronous via HTTP/JSON.
 
@@ -69,7 +70,7 @@ Communication is synchronous via HTTP/JSON.
 
 **POST** `/collection`
 
-### Request
+#### Request
 
 ```json
 {
@@ -77,7 +78,7 @@ Communication is synchronous via HTTP/JSON.
 }
 ```
 
-### Response
+#### Response
 
 ```json
 {
@@ -92,7 +93,7 @@ Communication is synchronous via HTTP/JSON.
 
 **POST** `/deck`
 
-### Request
+#### Request
 
 ```json
 {
@@ -101,7 +102,7 @@ Communication is synchronous via HTTP/JSON.
 }
 ```
 
-### Response
+#### Response
 
 ```json
 {
@@ -117,7 +118,7 @@ Communication is synchronous via HTTP/JSON.
 
 **POST** `/card`
 
-### Request
+#### Request
 
 ```json
 {
@@ -127,7 +128,7 @@ Communication is synchronous via HTTP/JSON.
 }
 ```
 
-### Response
+#### Response
 
 ```json
 {
@@ -138,29 +139,36 @@ Communication is synchronous via HTTP/JSON.
 
 ---
 
-### 5.4 List Collections
+### 5.4 List all by collection id
 
-**GET** `/collections`
+**GET** `/collections/{collectionID}`
 
-### Response
+#### Response
 
 ```json
 {
-  "collections": []
+  "id": "uuid",
+  "name": "string",
+  "userId": "uuid",
+  "createdAt": "timestamp",
+  "updatedAt": "timestamp",
+  "decks": [
+    {
+      "deckId": "uuid",
+      "collectionId": "uuid",
+      "deckName": "string",
+      "cards": [
+        {
+          "cardId": "uuid",
+          "deckId": "uuid",
+          "front": "string",
+          "back": "string"
+        }
+      ]
+    }
+  ]
 }
 ```
-
----
-
-### 5.5 List Decks by Collection
-
-**GET** `/collections/{id}/decks`
-
----
-
-### 5.6 List Cards by Deck
-
-**GET** `/decks/{id}/cards`
 
 ---
 
@@ -168,54 +176,54 @@ Communication is synchronous via HTTP/JSON.
 
 ### 6.1 Domain Structure
 
-- A **Collection** contains multiple **Decks**
-- A **Deck** contains multiple **Cards**
+* A **Collection** contains multiple **Decks**
+* A **Deck** contains multiple **Cards**
 
 ---
 
 ### 6.2 Relational Tables
 
-### collections
+#### collections
 
-| Field | Type | Description |
-| --- | --- | --- |
-| id | UUID | Primary key |
-| name | STRING | Collection name |
-| user_id | UUID | Owner reference |
-| created_at | TIMESTAMP | Creation timestamp |
+| Field      | Type      | Description           |
+| ---------- | --------- | --------------------- |
+| id         | UUID      | Primary key           |
+| name       | STRING    | Collection name       |
+| user_id    | UUID      | Owner reference       |
+| created_at | TIMESTAMP | Creation timestamp    |
 | updated_at | TIMESTAMP | Last update timestamp |
 
 ---
 
-### decks
+#### decks
 
-| Field | Type | Description |
-| --- | --- | --- |
-| id | UUID | Primary key |
-| name | STRING | Deck name |
-| collection_id | UUID | FK → collections.id |
-| created_at | TIMESTAMP | Creation timestamp |
-| updated_at | TIMESTAMP | Last update timestamp |
+| Field         | Type      | Description           |
+| ------------- | --------- | --------------------- |
+| id            | UUID      | Primary key           |
+| name          | STRING    | Deck name             |
+| collection_id | UUID      | FK → collections.id   |
+| created_at    | TIMESTAMP | Creation timestamp    |
+| updated_at    | TIMESTAMP | Last update timestamp |
 
 ---
 
-### cards
+#### cards
 
-| Field | Type | Description |
-| --- | --- | --- |
-| id | UUID | Primary key |
-| front | TEXT | Card front content |
-| back | TEXT | Card back content |
-| deck_id | UUID | FK → decks.id |
-| created_at | TIMESTAMP | Creation timestamp |
+| Field      | Type      | Description           |
+| ---------- | --------- | --------------------- |
+| id         | UUID      | Primary key           |
+| front      | TEXT      | Card front content    |
+| back       | TEXT      | Card back content     |
+| deck_id    | UUID      | FK → decks.id         |
+| created_at | TIMESTAMP | Creation timestamp    |
 | updated_at | TIMESTAMP | Last update timestamp |
 
 ---
 
 ### 6.3 Relationships
 
-- `decks.collection_id` → `collections.id`
-- `cards.deck_id` → `decks.id`
+* `decks.collection_id` → `collections.id`
+* `cards.deck_id` → `decks.id`
 
 ---
 
@@ -245,10 +253,10 @@ Communication is synchronous via HTTP/JSON.
 
 ## 7. Data Integrity Rules
 
-- A deck must always belong to a collection
-- A card must always belong to a deck
-- Deleting a collection should cascade delete decks and cards
-- Deleting a deck should cascade delete cards
+* A deck must always belong to a collection
+* A card must always belong to a deck
+* Deleting a collection should cascade delete decks and cards
+* Deleting a deck should cascade delete cards
 
 ---
 
@@ -265,26 +273,26 @@ Standard format:
 
 ### Common Errors
 
-| Code | Description |
-| --- | --- |
-| FLASHCARD_001 | Resource not found |
-| FLASHCARD_002 | Invalid request data |
+| Code          | Description                  |
+| ------------- | ---------------------------- |
+| FLASHCARD_001 | Resource not found           |
+| FLASHCARD_002 | Invalid request data         |
 | FLASHCARD_003 | Relationship constraint fail |
 
 ---
 
 ## 9. Observability
 
-- Logs: Structured JSON
+* Logs: Structured JSON
 
 ---
 
 ## 10. Tech Stack
 
-- Java 21
-- Spring Boot 3.4.0
-- Maven
-- Relational Database (H2 Database will be used for local development and demonstrations)
+* Java 21
+* Spring Boot 3.4.0
+* Maven
+* Relational Database (H2 Database will be used for local development and demonstrations)
 
 ---
 
@@ -298,18 +306,16 @@ com.mindlessducks.coreflashcard
 
 Suggested modules:
 
-- controllers
-- services
-- repositories
-- entities
-- dto
-- config
+* controllers
+* services
+* repositories
+* entities
+* dto
+* config
 
 ---
 
 ## 12. Versioning
 
-- Versioned endpoints recommended (`/v1`)
-- Backward compatibility required for public APIs
-
----
+* Versioned endpoints recommended (`/v1`)
+* Backward compatibility required for public APIs
