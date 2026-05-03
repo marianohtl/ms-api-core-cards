@@ -1,6 +1,4 @@
 # ms-api-core-cards
-<img width="1617" height="977" alt="image" src="https://github.com/user-attachments/assets/4ea447ad-6a80-4e19-9c75-173bf942a2d6" />
-<img width="1588" height="974" alt="image" src="https://github.com/user-attachments/assets/0e69d07b-4a8d-4114-a518-fcde8f6f80ec" />
 
 Microservice core to flashcards.
 
@@ -10,6 +8,10 @@ Microservice core to flashcards.
 ## Project Overview
 
 Build a platform that helps users study by allowing them to create and review personalized flashcards.
+
+<img width="1617" height="977" alt="image" src="https://github.com/user-attachments/assets/4ea447ad-6a80-4e19-9c75-173bf942a2d6" />
+<img width="1588" height="974" alt="image" src="https://github.com/user-attachments/assets/0e69d07b-4a8d-4114-a518-fcde8f6f80ec" />
+
 
 ## Features
 
